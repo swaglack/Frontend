@@ -5,10 +5,28 @@ import { sidebarItems } from "../Data/SidebarData";
 import AddIcon from "@material-ui/icons/Add";
 
 function Sidebar() {
+  // const history = useHistory();
+
+  // const goToChannel = id => {
+  //   if (id) {
+  //     console.log(id);
+  //     history.push(`/room/${id}`);
+  //   }
+  // };
+
+  // const addChannel = () => {
+  //   const promptName = prompt("Enter channel name");
+  //   if (promptName) {
+  //     db.collection("rooms").add({
+  //       name: promptName,
+  //     });
+  //   }
+  // };
+
   return (
     <Container>
       <WorkspaceContainer>
-        <Name>CleverProgrammer</Name>
+        <Name>Swaglack</Name>
         <NewMessage>
           <AddCircleOutlineIcon />
         </NewMessage>
