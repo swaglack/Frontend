@@ -1,8 +1,9 @@
 import "./App.css";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Chat from "./components/Chat";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Sidebar from "./components/SideBar";
