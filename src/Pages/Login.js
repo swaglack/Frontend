@@ -1,27 +1,56 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthApi } from "../shared/api";
+import axios from "axios";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState({
+    value: "",
+    err: null,
+  });
+  const [userPwd, setUserPwd] = useState({
+    value: "",
+    err: null,
+  });
 
-  const handleEmailChange = e => {
-    setEmail(e.target.value);
+  const handleEmailChange = (event) => {
+    const inputUserName = event.target.value;
+    setUserName((prevUserName) => ({
+      ...prevUserName,
+      value: inputUserName,
+    }));
   };
 
-  const handlePasswordChange = e => {
-    setPassword(e.target.value);
+  const handlePasswordChange = (event) => {
+    const inputUserPwd = event.target.value;
+    setUserPwd((prevUserPwd) => ({
+      ...prevUserPwd,
+      value: inputUserPwd,
+    }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform login logic here with the entered data
-    // e.g., make an API call to authenticate the user
-
-    // Reset form fields after login
-    setEmail("");
-    setPassword("");
+    if (userName.value && userPwd.value) {
+      axios
+        .post(
+          "https://api.swaglack.site/api/login", // 미리 약속한 주소
+          { userName: userName.value, userPwd: userPwd.value }, // 서버가 필요로 하는 데이터를 넘겨주고,
+          { headers: {} } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
+        )
+        .then(function (response) {
+          navigate("/");
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      alert("닉네임 또는 비밀번호가 입력되지 않았습니다.");
+      return;
+    }
   };
 
   return (
@@ -30,7 +59,7 @@ function Login() {
         <h2>
           <img
             style={{ transform: "scale(0.4)", height: "200px" }}
-            src="https://previews.us-east-1.widencdn.net/preview/48045879/assets/asset-view/120e11d9-89e2-4f3a-8989-8e60478c762d/thumbnail/eyJ3IjoyMDQ4LCJoIjoyMDQ4LCJzY29wZSI6ImFwcCJ9?Expires=1685354400&Signature=UAuBffmpAWZeEcHRbxWpAdFaKIVoyj4CN3BcozmhQv3llHJ7F1vDwvHBnnlrUE5latauqQFk058hHDpnY3DZ45vDSRjEaFISDcUD1pjDQvP5zSyDz47ZHYipTg0J7zQPLmKODk~stzlYCPy9rqY91I3BYcufBBGnIYYt6uJ2VZ6~SJDkk4XocqIOnx78iRLbi6gpn2DiU3V4wbDtUura9H18bYAqn2e79szSEXlFZfBjTlcU8n42XgEQnhb25~I62xyoz-GRGLB3dZVhakUDfeAgGxkfQ7Q2rdxzDAKGI5gbIgJt1h8~2fmiCujCZ96KqYIXgiArivXXgC7ZwkO2KQ__&Key-Pair-Id=APKAJM7FVRD2EPOYUXBQ"
+            src="img\Slack-mark-RGB.png"
             alt="swaglack"
           />
           <br />
@@ -41,14 +70,20 @@ function Login() {
         <div>
           <label htmlFor="email">Email</label>
           <br />
-          <InputBox type="email" id="email" value={email} onChange={handleEmailChange} required />
+          <InputBox type="email" id="email" onChange={handleEmailChange} />
         </div>
         <div>
           <label htmlFor="password">Password</label>
           <br />
-          <InputBox type="password" id="password" value={password} onChange={handlePasswordChange} required />
+          <InputBox
+            type="password"
+            id="password"
+            onChange={handlePasswordChange}
+          />
         </div>
-        <ButtonBox type="submit">로그인</ButtonBox>
+        <ButtonBox type="submit" onClick={handleSubmit}>
+          로그인
+        </ButtonBox>
       </form>
     </SigninBox>
   );

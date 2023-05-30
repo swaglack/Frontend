@@ -1,33 +1,132 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthApi } from "../shared/api";
+import axios from "axios";
+
+// 닉네임 정규식
+const nicknameRegex = /^[A-Za-z0-9]{3,}$/;
+
+// 비밀번호 정규식
+const passwordRegex = /^.{4,}$/;
+
+//이메일 정규식
+const userNameRegex =
+  /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
 
 function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState({
+    value: "",
+    err: null,
+  });
 
-  const handleUsernameChange = e => {
-    setUsername(e.target.value);
+  const [nickName, setNickName] = useState({
+    value: "",
+    err: null,
+  });
+
+  const [userPwd, setUserPwd] = useState({
+    value: "",
+    err: null,
+  });
+  const [confirmPassword, setConfirmPassword] = useState({
+    value: "",
+    err: null,
+  });
+
+  const handleUsernameChange = (event) => {
+    const inputUserName = event.target.value;
+    setUserName((prevUserName) => ({
+      ...prevUserName,
+      value: inputUserName,
+    }));
   };
 
-  const handleEmailChange = e => {
-    setEmail(e.target.value);
+  const handleNicknameChange = (event) => {
+    const inputNickName = event.target.value;
+    setNickName((prevNickName) => ({
+      ...prevNickName,
+      value: inputNickName,
+    }));
   };
 
-  const handlePasswordChange = e => {
-    setPassword(e.target.value);
+  const handlePasswordChange = (event) => {
+    const inputUserPwd = event.target.value;
+    setUserPwd((prevUserPwd) => ({
+      ...prevUserPwd,
+      value: inputUserPwd,
+    }));
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    // Perform signup logic here with the entered data
-    // e.g., make an API call to register the user
+  const handleCheckpasswordChange = (event) => {
+    const inputConfirmPassword = event.target.value;
+    setConfirmPassword((prevConfimPw) => ({
+      ...prevConfimPw,
+      value: inputConfirmPassword,
+    }));
+  };
 
-    // Reset form fields after successful signup
-    setUsername("");
-    setEmail("");
-    setPassword("");
+  const verifySiginUpData = () => {
+    // 유효성 검사 결과 저장
+    const verifiedUsername = userNameRegex.test(userName.value);
+
+    const verifiedNickname = nicknameRegex.test(nickName.value);
+    const verifiedPassword = passwordRegex.test(userPwd.value);
+    const verifiedConfirmPassword = userPwd.value === confirmPassword.value;
+
+    setUserName((prevUserName) => ({
+      ...prevUserName,
+      err: !verifiedUsername,
+    }));
+
+    setNickName((prevNickName) => ({
+      ...prevNickName,
+      err: !verifiedNickname,
+    }));
+
+    setUserPwd((prevUserPwd) => ({
+      ...prevUserPwd,
+      err: !verifiedPassword,
+    }));
+
+    setConfirmPassword((prevConfimPw) => ({
+      ...prevConfimPw,
+      err: !verifiedConfirmPassword,
+    }));
+    return !verifiedUsername ||
+      !verifiedNickname ||
+      !verifiedPassword ||
+      !verifiedConfirmPassword
+      ? false
+      : true;
+  };
+  const handleSubmit = async () => {
+    const signUpVerfy = verifySiginUpData();
+    if (signUpVerfy) {
+      axios
+        .post(
+          "https://api.swaglack.site/api/signup", // 미리 약속한 주소
+          {
+            userName: userName.value,
+            nickName: nickName.value,
+            userPwd: userPwd.value,
+          }, // 서버가 필요로 하는 데이터를 넘겨주고,
+          { headers: {} } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
+        )
+        .then(function (response) {
+          navigate("/");
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      return;
+    } else {
+      // 회원가입 부적합으로 함수 종료
+      return;
+    }
   };
 
   return (
@@ -36,36 +135,47 @@ function Signup() {
         <h2>
           <img
             style={{ transform: "scale(0.4)", height: "200px" }}
-            src="https://previews.us-east-1.widencdn.net/preview/48045879/assets/asset-view/120e11d9-89e2-4f3a-8989-8e60478c762d/thumbnail/eyJ3IjoyMDQ4LCJoIjoyMDQ4LCJzY29wZSI6ImFwcCJ9?Expires=1685354400&Signature=UAuBffmpAWZeEcHRbxWpAdFaKIVoyj4CN3BcozmhQv3llHJ7F1vDwvHBnnlrUE5latauqQFk058hHDpnY3DZ45vDSRjEaFISDcUD1pjDQvP5zSyDz47ZHYipTg0J7zQPLmKODk~stzlYCPy9rqY91I3BYcufBBGnIYYt6uJ2VZ6~SJDkk4XocqIOnx78iRLbi6gpn2DiU3V4wbDtUura9H18bYAqn2e79szSEXlFZfBjTlcU8n42XgEQnhb25~I62xyoz-GRGLB3dZVhakUDfeAgGxkfQ7Q2rdxzDAKGI5gbIgJt1h8~2fmiCujCZ96KqYIXgiArivXXgC7ZwkO2KQ__&Key-Pair-Id=APKAJM7FVRD2EPOYUXBQ"
+            src="img\Slack-mark-RGB.png"
             alt="swaglack"
           />
           <br />
         </h2>
       </Link>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
-          <label htmlFor="email">이메일주소</label>
+          <label htmlFor="userName">이메일주소</label>
           <br />
-          <InputBox type="email" id="email" value={email} onChange={handleEmailChange} required />
+          <InputBox
+            type="email"
+            id="userName"
+            onChange={handleUsernameChange}
+          />
         </div>
         <div>
-          <label htmlFor="username">닉네임</label>
+          <label htmlFor="nickName">닉네임</label>
           <br />
-          <InputBox type="text" id="username" value={username} onChange={handleUsernameChange} required />
+          <InputBox type="text" id="nickName" onChange={handleNicknameChange} />
         </div>
-
         <div>
           <label htmlFor="password">비밀번호</label>
           <br />
-          <InputBox type="password" id="password" value={password} onChange={handlePasswordChange} required />
+          <InputBox
+            type="password"
+            id="password"
+            onChange={handlePasswordChange}
+          />
         </div>
         <div>
-          <label htmlFor="password">비밀번호확인</label>
+          <label htmlFor="checkpassword">비밀번호확인</label>
           <br />
-          <InputBox type="password" id="password" value={password} onChange={handlePasswordChange} required />
+          <InputBox
+            type="password"
+            id="checkpassword"
+            onChange={handleCheckpasswordChange}
+          />
         </div>
 
-        <ButtonBox type="submit">회원가입</ButtonBox>
+        <ButtonBox onClick={handleSubmit}>회원가입</ButtonBox>
       </form>
       <div>
         <Link to={"/Login"} style={{ color: "grey" }}>
