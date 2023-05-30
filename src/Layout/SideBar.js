@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { sidebarItems } from "../Data/SidebarData";
 import AddIcon from "@material-ui/icons/Add";
+import ChannelsLists from "../components/Channels/ChannelLists";
 
 function Sidebar() {
   // const history = useHistory();
@@ -41,12 +42,9 @@ function Sidebar() {
       </MainChannels>
       <ChannelsContainer>
         <NewChannelContainer>
-          <div>Channels</div>
           <AddIcon />
         </NewChannelContainer>
-        <ChannelsList>
-          <Channel>Channel #1</Channel>
-        </ChannelsList>
+        <ChannelsLists />
       </ChannelsContainer>
     </Container>
   );
