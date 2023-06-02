@@ -55,7 +55,7 @@ function Login() {
         .post(
           "https://api.swaglack.site/api/login", // 미리 약속한 주소
           { userName: userName.value, userPwd: userPwd.value }, // 서버가 필요로 하는 데이터를 넘겨주고,
-          { headers: {} } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
+          { body: {} } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
         )
         .then(function (response) {
           // navigate("/");

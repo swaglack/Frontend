@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { AuthApi } from "../shared/api";
 import axios from "axios";
 
-// 닉네임 정규식
-const nicknameRegex = /^[A-Za-z0-9]{3,}$/;
+// // 닉네임 정규식
+// const nicknameRegex = /^[A-Za-z0-9]{3,}$/;
 
 // 비밀번호 정규식
 const passwordRegex = /^.{4,}$/;
@@ -71,7 +71,7 @@ function Signup() {
     // 유효성 검사 결과 저장
     const verifiedUsername = userNameRegex.test(userName.value);
 
-    const verifiedNickname = nicknameRegex.test(nickName.value);
+    // const verifiedNickname = nicknameRegex.test(nickName.value);
     const verifiedPassword = passwordRegex.test(userPwd.value);
     const verifiedConfirmPassword = userPwd.value === confirmPassword.value;
 
@@ -80,10 +80,10 @@ function Signup() {
       err: !verifiedUsername,
     }));
 
-    setNickName((prevNickName) => ({
-      ...prevNickName,
-      err: !verifiedNickname,
-    }));
+    // setNickName((prevNickName) => ({
+    //   ...prevNickName,
+    //   err: !verifiedNickname,
+    // }));
 
     setUserPwd((prevUserPwd) => ({
       ...prevUserPwd,
@@ -95,7 +95,7 @@ function Signup() {
       err: !verifiedConfirmPassword,
     }));
     return !verifiedUsername ||
-      !verifiedNickname ||
+      // !verifiedNickname ||
       !verifiedPassword ||
       !verifiedConfirmPassword
       ? false
