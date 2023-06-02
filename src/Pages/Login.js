@@ -6,20 +6,20 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 //서버에서 응답받은 JWT의 payload 데이터가 프론트에 필요할 때가 있다.
-const parseJwt = token => {
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
+// const parseJwt = (token) => {
+//   var base64Url = token.split(".")[1];
+//   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+//   var jsonPayload = decodeURIComponent(
+//     atob(base64)
+//       .split("")
+//       .map(function (c) {
+//         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+//       })
+//       .join("")
+//   );
 
-  return JSON.parse(jsonPayload);
-};
+//   return JSON.parse(jsonPayload);
+// };
 
 function Login() {
   const navigate = useNavigate();
@@ -55,12 +55,18 @@ function Login() {
         .post(
           "https://api.swaglack.site/api/login", // 미리 약속한 주소
           { userName: userName.value, userPwd: userPwd.value }, // 서버가 필요로 하는 데이터를 넘겨주고,
-          { body: {} } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
+          {
+            body: {
+              // Authorization: "Bearer " + token
+            },
+          } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
         )
         .then(function (response) {
-          // navigate("/");
-          // console.log(response);
+          alert("로그인에 성공했습니다.");
+          navigate("/");
+          console.log(response);
 
+          //쿠키저장
           // const expirationDate = new Date();
           // const setCookie = `Bearer ${response.data.token}`;
           // expirationDate.setTime(
@@ -76,14 +82,48 @@ function Login() {
           //   JSON.stringify(parseJwt(response.data.token).nickname)
           // );
           // sessionStorage.setItem("isSignIn", JSON.stringify(true));
+
+          // const { token } = response.data;
+          // if (token) {
+          //   Cookies.set("userName", token);
+          // }
+
+          const expirationDate = new Date();
+          const setCookie = `Bearer ${response.body.token}`;
+          expirationDate.setTime(
+            expirationDate.getTime() + 24 * 60 * 60 * 1000
+          );
+          document.cookie = `authorization=(
+            setCookie
+          )}; expires=${expirationDate.toUTCString()}; path=/`;
+
+          // function setCookie(key, value, day = 1) {
+          //   let date = new Date();
+          //   date.setTime(date.getTime() + day * 60 * 60 * 24 * 1000);
+          //   document.cookie =
+          //     key +
+          //     "=" +
+          //     JSON.stringify(value) +
+          //     ";expires=" +
+          //     date.toUTCString() +
+          //     ";path=/";
+          // }
+          // // 로컬 스토리지에 닉네임 저장(자동로그인)
+          // localStorage.setItem(
+          //   "userName",
+          //   JSON.stringify(parseJwt(response.data.token).userName)
+          // );
+          // localStorage.setItem("isSignIn", JSON.stringify(true));
+
+          //로컬
+          function setLocalStorage(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+          }
+          // jscookie쓸려고 만들었음
           const { token } = response.data;
           if (token) {
             Cookies.set("userName", token);
           }
-
-          alert("로그인에 성공했습니다.");
-          navigate("/");
-          console.log(response);
         })
         .catch(function (error) {
           console.log(error);
