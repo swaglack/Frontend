@@ -76,8 +76,8 @@ const ChatComponent = () => {
     <Container id="main">
       <ChatArea id="chat">
         {messages.map((message, text) => (
-          <Message key={text} isCurrentUser={message.sender === name}>
-            {message.sender !== name && <Sender>{message.sender}:</Sender>}
+          <Message key={text}>
+            <Sender>{message.sender}:</Sender>
             {message.text}
           </Message>
         ))}
