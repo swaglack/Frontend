@@ -6,7 +6,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 //서버에서 응답받은 JWT의 payload 데이터가 프론트에 필요할 때가 있다.
-const parseJwt = (token) => {
+const parseJwt = token => {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
