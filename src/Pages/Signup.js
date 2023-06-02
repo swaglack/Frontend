@@ -11,7 +11,8 @@ import axios from "axios";
 const passwordRegex = /^.{4,}$/;
 
 //이메일 정규식
-const userNameRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+const userNameRegex =
+  /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
 
 function Signup() {
   const navigate = useNavigate();
@@ -34,33 +35,33 @@ function Signup() {
     err: null,
   });
 
-  const handleUsernameChange = event => {
+  const handleUsernameChange = (event) => {
     const inputUserName = event.target.value;
-    setUserName(prevUserName => ({
+    setUserName((prevUserName) => ({
       ...prevUserName,
       value: inputUserName,
     }));
   };
 
-  const handleNicknameChange = event => {
+  const handleNicknameChange = (event) => {
     const inputNickName = event.target.value;
-    setNickName(prevNickName => ({
+    setNickName((prevNickName) => ({
       ...prevNickName,
       value: inputNickName,
     }));
   };
 
-  const handlePasswordChange = event => {
+  const handlePasswordChange = (event) => {
     const inputUserPwd = event.target.value;
-    setUserPwd(prevUserPwd => ({
+    setUserPwd((prevUserPwd) => ({
       ...prevUserPwd,
       value: inputUserPwd,
     }));
   };
 
-  const handleCheckpasswordChange = event => {
+  const handleCheckpasswordChange = (event) => {
     const inputConfirmPassword = event.target.value;
-    setConfirmPassword(prevConfimPw => ({
+    setConfirmPassword((prevConfimPw) => ({
       ...prevConfimPw,
       value: inputConfirmPassword,
     }));
@@ -74,7 +75,7 @@ function Signup() {
     const verifiedPassword = passwordRegex.test(userPwd.value);
     const verifiedConfirmPassword = userPwd.value === confirmPassword.value;
 
-    setUserName(prevUserName => ({
+    setUserName((prevUserName) => ({
       ...prevUserName,
       err: !verifiedUsername,
     }));
@@ -84,12 +85,12 @@ function Signup() {
     //   err: !verifiedNickname,
     // }));
 
-    setUserPwd(prevUserPwd => ({
+    setUserPwd((prevUserPwd) => ({
       ...prevUserPwd,
       err: !verifiedPassword,
     }));
 
-    setConfirmPassword(prevConfimPw => ({
+    setConfirmPassword((prevConfimPw) => ({
       ...prevConfimPw,
       err: !verifiedConfirmPassword,
     }));
@@ -132,7 +133,11 @@ function Signup() {
     <SignupBox>
       <Link to="/">
         <h2>
-          <img style={{ transform: "scale(0.4)", height: "200px" }} src="img\Slack-mark-RGB.png" alt="swaglack" />
+          <img
+            style={{ transform: "scale(0.4)", height: "200px" }}
+            src="img\Slack-mark-RGB.png"
+            alt="swaglack"
+          />
           <br />
         </h2>
       </Link>
@@ -140,7 +145,11 @@ function Signup() {
         <div>
           <label htmlFor="userName">이메일주소</label>
           <br />
-          <InputBox type="email" id="userName" onChange={handleUsernameChange} />
+          <InputBox
+            type="email"
+            id="userName"
+            onChange={handleUsernameChange}
+          />
         </div>
         <div>
           <label htmlFor="nickName">닉네임</label>
@@ -150,12 +159,20 @@ function Signup() {
         <div>
           <label htmlFor="password">비밀번호</label>
           <br />
-          <InputBox type="password" id="password" onChange={handlePasswordChange} />
+          <InputBox
+            type="password"
+            id="password"
+            onChange={handlePasswordChange}
+          />
         </div>
         <div>
           <label htmlFor="checkpassword">비밀번호확인</label>
           <br />
-          <InputBox type="password" id="checkpassword" onChange={handleCheckpasswordChange} />
+          <InputBox
+            type="password"
+            id="checkpassword"
+            onChange={handleCheckpasswordChange}
+          />
         </div>
 
         <ButtonBox onClick={handleSubmit}>회원가입</ButtonBox>
