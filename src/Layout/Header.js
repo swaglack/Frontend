@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import LoginState from "./LoginState";
 
 function Header() {
   return (
@@ -18,7 +19,7 @@ function Header() {
       <UserContainer>
         <Name></Name>
         <UserImage>
-          <img src={"https://i.imgur.com/6VBx3io.png"} />
+          <LoginState />
         </UserImage>
       </UserContainer>
     </Container>
@@ -38,9 +39,9 @@ const Container = styled.div`
 `;
 
 const Main = styled.div`
-    display: flex;
-    margin-right: 16px;
-    margin-left 16px;
+  display: flex;
+  margin-right: 16px;
+  margin-left: 16px;
 `;
 
 const SearchContainer = styled.div`
@@ -89,8 +90,12 @@ const UserImage = styled.div`
   border: 2px solid white;
   border-radius: 3px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
-  img {
+  /* img {
     width: 100%;
-  }
+  } */
 `;
