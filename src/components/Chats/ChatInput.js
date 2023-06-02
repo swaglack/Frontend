@@ -101,10 +101,10 @@ const Container = styled.div`
   margin: auto;
   margin-top: 100px;
   border-radius: 8px;
-  background-color: #f5f5f5;
+  background-color: white;
   text-align: left;
-  width: 600px;
-  height: 500px;
+  width: 1200px;
+  height: 600px;
   margin-top: 10px;
 `;
 
@@ -120,7 +120,6 @@ const ChatArea = styled.div`
 
 const MessageInputContainer = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 10px;
   background-color: white;
@@ -135,7 +134,7 @@ const Input = styled.input`
   outline: none;
   transition: border-color 0.3s ease;
   flex-grow: 1;
-
+  width: 500px;
   &:hover {
     border-color: #888888;
   }
@@ -168,24 +167,6 @@ const Button = styled.button`
 const Sender = styled.span`
   font-weight: bold;
   margin-right: 4px;
-`;
-
-const ChannelList = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-`;
-
-const Channel = styled.div`
-  padding: 5px;
-  margin-bottom: 5px;
-  background-color: ${({ active }) => (active ? "#4a154b" : "#f5f5f5")};
-  color: ${({ active }) => (active ? "white" : "black")};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ active }) => (active ? "#5e1e66" : "#e0e0e0")};
-  }
 `;
 
 export default ChatComponent;
