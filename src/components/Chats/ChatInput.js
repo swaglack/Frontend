@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import io from "socket.io-client";
 import { socket } from "../Socket/socket";
 
 const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
   const history = useNavigate();
 
-  const name = "userId";
-  const workspace = "Your Workspace";
-  const channel = "Your Channel";
+  // useEffect(() => {
+  //   const name = Cookies.get("name");
+  //   console.log(name);
+  // });
+  const name = "";
+  const workspace = "testWS";
+  const channel = "testCN";
 
-  const MessageSend = () => {
-    const input = document.getElementById("test");
-    const message = input.value;
-    input.value = "";
+  const sendMessage = () => {
+    const messageInput = document.getElementById("test");
+    const message = messageInput.value;
+    messageInput.value = "";
 
-    setMessages(prevMessages => [...prevMessages, { text: message, isUser: true }]);
+    const chat = document.getElementById("chat");
+    const msg = document.createElement("div");
+    const node = document.createTextNode(message);
+    msg.classList.add("me");
+    msg.appendChild(node);
+    chat.appendChild(msg);
+
+    socket.emit("message", { type: "message", message });
   };
 
   useEffect(() => {
-    // Check if the token is available
-    // const token = localStorage.getItem("token");
-    // if (!token) {
-    //   Navigate("/login"); // Redirect to the login screen if token is not available
-    //   return;
+    // // const token = localStorage.getItem("cookie");
+    // // if (!cookie) {
+    // //   // navigate("/login"); // Redirect to the login screen if token is not available
+    // //   return;
     // }
 
     socket.emit("newUser", name, workspace, channel);
@@ -52,72 +61,80 @@ const ChatComponent = () => {
       message.appendChild(node);
       chat.appendChild(message);
     });
+  }, []);
 
-    return () => {
-      socket.off("update");
-    };
-  }, [history]);
+  // return () => {
+  //   socket.on("update");
+  // };
+  // // }, [history]);
 
-  const sendMessage = () => {
-    const messageInput = document.getElementById("test");
-    const message = messageInput.value;
-    messageInput.value = "";
-
-    const chat = document.getElementById("chat");
-    const msg = document.createElement("div");
-    const node = document.createTextNode(message);
-    msg.classList.add("me");
-    msg.appendChild(node);
-    chat.appendChild(msg);
-
-    socket.emit("message", { type: "message", message });
-  };
+  // const Message = ({ isUser, children }) => {
+  //   return <div className={isUser ? "user-message" : "other-message"}>{children}</div>;
+  // };
 
   return (
-    <Container>
+    <Container id="main">
       <ChatArea id="chat">
-        {messages.map((message, index) => (
-          <Message key={index} isUser={message.isUser}>
+        {messages.map((message, text) => (
+          <Message key={text} isCurrentUser={message.sender === name}>
+            {message.sender !== name && <Sender>{message.sender}:</Sender>}
             {message.text}
           </Message>
         ))}
       </ChatArea>
-      <div>
+      <MessageInputContainer>
         <Input type="text" id="test" placeholder="메세지를 넣어주세요..." />
         <Button onClick={sendMessage}>Send</Button>
-      </div>
+      </MessageInputContainer>
     </Container>
   );
 };
 
-const Message = ({ isUser, children }) => {
-  return <div className={isUser ? "user-message" : "other-message"}>{children}</div>;
-};
+const Message = styled.div`
+  background-color: ${({ isCurrentUser }) => (isCurrentUser ? "#4a154b" : "#f5f5f5")};
+  color: ${({ isCurrentUser }) => (isCurrentUser ? "white" : "black")};
+  padding: 10px;
+  margin-bottom: 10px;
+`;
 
 const Container = styled.div`
   margin: auto;
   margin-top: 100px;
-  border-radius: 20px;
-  background-color: whitesmoke;
-  text-align: center;
-  width: 1300px;
-  height: 700px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  text-align: left;
+  width: 600px;
+  height: 500px;
   margin-top: 10px;
 `;
 
 const ChatArea = styled.div`
-  height: 90%;
+  height: 85%;
   width: 100%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+`;
+
+const MessageInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: white;
+  border-top: 1px solid #f5f5f5;
 `;
 
 const Input = styled.input`
-  padding: 10px 300px;
+  padding: 10px;
   border: 1px solid #dcdcdc;
   border-radius: 4px;
   font-size: 14px;
   outline: none;
   transition: border-color 0.3s ease;
+  flex-grow: 1;
 
   &:hover {
     border-color: #888888;
@@ -134,7 +151,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  padding: 10px 100px;
+  padding: 10px;
   background-color: #4a154b;
   color: #fff;
   border: none;
@@ -145,6 +162,29 @@ const Button = styled.button`
 
   &:hover {
     background-color: #5e1e66;
+  }
+`;
+
+const Sender = styled.span`
+  font-weight: bold;
+  margin-right: 4px;
+`;
+
+const ChannelList = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+`;
+
+const Channel = styled.div`
+  padding: 5px;
+  margin-bottom: 5px;
+  background-color: ${({ active }) => (active ? "#4a154b" : "#f5f5f5")};
+  color: ${({ active }) => (active ? "white" : "black")};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ active }) => (active ? "#5e1e66" : "#e0e0e0")};
   }
 `;
 
