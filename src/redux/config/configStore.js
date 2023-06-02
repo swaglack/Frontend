@@ -1,11 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";
-import slack from "../slackSlice.js";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
+import slackReducer from "../slackSlice.js";
+
+const middleware = [...getDefaultMiddleware(), thunk, logger];
+
 const store = configureStore({
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
-  // devTools: process.env.NODE_ENV !== "production",
   reducer: {
-    slack,
+    slack: slackReducer,
   },
+  middleware,
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export default store;
