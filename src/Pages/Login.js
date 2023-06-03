@@ -5,22 +5,6 @@ import { AuthApi } from "../shared/api";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-//서버에서 응답받은 JWT의 payload 데이터가 프론트에 필요할 때가 있다.
-const parseJwt = token => {
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
-
-  return JSON.parse(jsonPayload);
-};
-
 function Login() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState({
@@ -32,58 +16,66 @@ function Login() {
     err: null,
   });
 
-  const handleEmailChange = event => {
+  const handleEmailChange = (event) => {
     const inputUserName = event.target.value;
-    setUserName(prevUserName => ({
+    setUserName((prevUserName) => ({
       ...prevUserName,
       value: inputUserName,
     }));
   };
 
-  const handlePasswordChange = event => {
+  const handlePasswordChange = (event) => {
     const inputUserPwd = event.target.value;
-    setUserPwd(prevUserPwd => ({
+    setUserPwd((prevUserPwd) => ({
       ...prevUserPwd,
       value: inputUserPwd,
     }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (userName.value && userPwd.value) {
       axios
         .post(
           "https://api.swaglack.site/api/login", // 미리 약속한 주소
-          { userName: userName.value, userPwd: userPwd.value }, // 서버가 필요로 하는 데이터를 넘겨주고,
-          { body: {} } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
+          { userName: userName.value, userPwd: userPwd.value } // 서버가 필요로 하는 데이터를 넘겨주고,
+          // {
+          //   body: {
+          //     // Authorization: "Bearer " + token,
+          //   },
+          // } // 누가 요청했는 지 알려줍니다. (config에서 해요!)
         )
         .then(function (response) {
-          // navigate("/");
-          // console.log(response);
-
-          // const expirationDate = new Date();
-          // const setCookie = `Bearer ${response.data.token}`;
-          // expirationDate.setTime(
-          //   expirationDate.getTime() + 24 * 60 * 60 * 1000
-          // );
-          // document.cookie = `authorization=${encodeURIComponent(
-          //   setCookie
-          // )}; expires=${expirationDate.toUTCString()}; path=/`;
-
-          // // 세선 스토리지에 닉네임 저장
-          // sessionStorage.setItem(
-          //   "nickname",
-          //   JSON.stringify(parseJwt(response.data.token).nickname)
-          // );
-          // sessionStorage.setItem("isSignIn", JSON.stringify(true));
-          const { token } = response.data;
-          if (token) {
-            Cookies.set("userName", token);
-          }
-
           alert("로그인에 성공했습니다.");
           navigate("/");
-          console.log(response);
+          // console.log(response.data);
+
+          // 로컬 스토리지에 닉네임 저장(자동로그인)
+          localStorage.setItem(
+            "Authorization",
+            // JSON.stringify(response.data.Authorization)
+            response.data.Authorization
+          );
+          localStorage.setItem("isSignIn", JSON.stringify(true));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      axios // 닉네임 정보를 GET 메소드로 가저와서 로컬 스토리지로 저장
+        .get(
+          "https://api.swaglack.site/api/userinfo", // 미리 약속한 주소
+          { headers: { Authorization: localStorage.getItem("Authorization") } }
+        )
+        .then(function (response) {
+          alert("유저정보(nickName)를 가저오는데 성공했습니다.");
+          navigate("/");
+          console.log(response.data);
+
+          // 로컬 스토리지에 닉네임 저장(자동로그인)
+          localStorage.setItem(
+            "nickName",
+            JSON.stringify(response.data.nickName)
+          );
         })
         .catch(function (error) {
           console.log(error);
@@ -98,7 +90,11 @@ function Login() {
     <SigninBox>
       <Link to="/">
         <h2>
-          <img style={{ transform: "scale(0.4)", height: "200px" }} src="img\Slack-mark-RGB.png" alt="swaglack" />
+          <img
+            style={{ transform: "scale(0.4)", height: "200px" }}
+            src="img\Slack-mark-RGB.png"
+            alt="swaglack"
+          />
           <br />
         </h2>
       </Link>
@@ -112,7 +108,11 @@ function Login() {
         <div>
           <label htmlFor="password">Password</label>
           <br />
-          <InputBox type="password" id="password" onChange={handlePasswordChange} />
+          <InputBox
+            type="password"
+            id="password"
+            onChange={handlePasswordChange}
+          />
         </div>
         <ButtonBox type="submit" onClick={handleSubmit}>
           로그인

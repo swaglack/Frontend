@@ -13,6 +13,6 @@ export const api = axios.create({
 
 export const AuthApi = {
   // 회원정보 관련
-  signup: payload => api.post("/api/signup", payload),
-  login: payload => api.post("/api/login", payload),
+  signup: (payload) => api.post("/api/signup", payload),
+  login: (payload) => api.post("/api/login", payload),
 };
