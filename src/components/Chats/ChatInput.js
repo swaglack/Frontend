@@ -7,11 +7,6 @@ const ChatInput = () => {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    // const { token } = response.data;
-    // if (token) {
-    //   Cookies.set("userName", token);
-    // }
-    // (name == setName) == "userName";
     setName("");
     socket.emit("newUser", "nickName", "testWS", "testCN");
 
