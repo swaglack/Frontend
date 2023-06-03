@@ -10,7 +10,7 @@ function LoginState() {
   const [isSignIn, setIsSignIn] = useState(false);
 
   const signOutHandler = () => {
-    Cookies.remove("userName");
+    Cookies.remove("userName"); //??
     sessionStorage.clear();
     alert("로그아웃 했습니다.");
     setNickName("");
@@ -49,14 +49,14 @@ function LoginState() {
     </>
   );
   const offSignIn = (
-    <>
+    <offSignInBox>
       <Link to={"/Signup"}>
         <button>회원가입</button>
       </Link>
       <Link to={"/Login"}>
         <button>로그인</button>
       </Link>
-    </>
+    </offSignInBox>
   );
 
   return <div>{isSignIn ? onSignIn : offSignIn}</div>;
@@ -65,6 +65,13 @@ function LoginState() {
 export default LoginState;
 
 const LogonBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const offSignInBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
