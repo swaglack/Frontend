@@ -1,83 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { socket } from "../Socket/socket";
 
-const ChatComponent = () => {
+const ChatInput = () => {
   const [messages, setMessages] = useState([]);
-  const history = useNavigate();
+  const [name, setName] = useState("");
 
-  // useEffect(() => {
-  //   const name = Cookies.get("name");
-  //   console.log(name);
-  // });
-  const name = "";
-  const workspace = "testWS";
-  const channel = "testCN";
+  useEffect(() => {
+    setName("");
+    socket.emit("newUser", "nickName", "testWS", "testCN");
+
+    socket.on("update", data => {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        {
+          type: data.type,
+          sender: data.name,
+          text: data.message,
+        },
+      ]);
+    });
+  }, []);
 
   const sendMessage = () => {
     const messageInput = document.getElementById("test");
     const message = messageInput.value;
     messageInput.value = "";
-
-    const chat = document.getElementById("chat");
-    const msg = document.createElement("div");
-    const node = document.createTextNode(message);
-    msg.classList.add("me");
-    msg.appendChild(node);
-    chat.appendChild(msg);
-
+    setMessages(prevMessages => [
+      ...prevMessages,
+      {
+        type: "message",
+        sender: name,
+        text: message,
+      },
+    ]);
     socket.emit("message", { type: "message", message });
   };
-
-  useEffect(() => {
-    // // const token = localStorage.getItem("cookie");
-    // // if (!cookie) {
-    // //   // navigate("/login"); // Redirect to the login screen if token is not available
-    // //   return;
-    // }
-
-    socket.emit("newUser", name, workspace, channel);
-
-    socket.on("update", data => {
-      const chat = document.getElementById("chat");
-      const message = document.createElement("div");
-      const node = document.createTextNode(`${data.name}: ${data.message}`);
-      let className = "";
-
-      switch (data.type) {
-        case "message":
-          className = "other";
-          break;
-        case "connect":
-          className = "connect";
-          break;
-        case "disconnect":
-          className = "disconnect";
-          break;
-      }
-
-      message.classList.add(className);
-      message.appendChild(node);
-      chat.appendChild(message);
-    });
-  }, []);
-
-  // return () => {
-  //   socket.on("update");
-  // };
-  // // }, [history]);
-
-  // const Message = ({ isUser, children }) => {
-  //   return <div className={isUser ? "user-message" : "other-message"}>{children}</div>;
-  // };
-
   return (
     <Container id="main">
       <ChatArea id="chat">
-        {messages.map((message, text) => (
-          <Message key={text} isCurrentUser={message.sender === name}>
-            {message.sender !== name && <Sender>{message.sender}:</Sender>}
+        {messages.map((message, index) => (
+          <Message key={index} isCurrentUser={message.sender === name}>
+            <Sender>{message.sender}:</Sender>
             {message.text}
           </Message>
         ))}
@@ -169,4 +133,4 @@ const Sender = styled.span`
   margin-right: 4px;
 `;
 
-export default ChatComponent;
+export default ChatInput;

@@ -7,11 +7,16 @@ import styled from "styled-components";
 import Header from "./Layout/Header";
 import Sidebar from "./Layout/SideBar";
 import ChatInput from "./components/Chats/ChatInput";
+import MainPage from "./Pages/MainPage";
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false); // Track the user's login status
 
   // const handleLogin = () => {
+  //   useEffect(() => {
+  //     const name = Cookies.get("Nickname");
+  //     console.log(name);
+  //   });
   //   // Perform login logic
   //   setIsLoggedIn(true);
   // };
@@ -26,14 +31,16 @@ function App() {
       <Container>
         <Header />
         {/* isLoggedIn={isLoggedIn} onLogout={handleLogout} /> */}
+
         <Main>
           <Sidebar />
           {/* Render the ChatInput component only when the user is logged in */}
-          <ChatInput />
+
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/Chat" element={<ChatInput />} />
           </Routes>
         </Main>
       </Container>
