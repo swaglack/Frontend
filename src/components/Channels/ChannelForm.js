@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-Modal.setAppElement("#root"); // 이 줄은 모달이 올바르게 스크린 리더와 작동하도록 하는 것입니다. 접근성을 위해 필요합니다.
+Modal.setAppElement("#root");
 
 function CreateChannelModal() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [channelName, setChannelName] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
+  const userName = localStorage.getItem("userName");
+  const workspaceId = localStorage.getItem("workspaceId");
+
+  const handleChannelChat = event => {
+    const value = event.target.value;
+    setChannelChat(value);
+  };
 
   const validateChannelName = name => {
     const regex = /^[a-z0-9\_\-]+$/i;
@@ -23,13 +31,16 @@ function CreateChannelModal() {
   const handleCreateChannel = async () => {
     if (channelName && !isInvalid) {
       try {
-        const res = await axios.post("https://api.swaglack.site/api/workspace/:workspaceid/channel", {
-          name: channelName,
-        });
-        console.log(res.data);
-        setModalIsOpen(false);
+        await axios.post(
+          `https://api.swaglack.site/api/workspace/${workspaceId}/channel`,
+          { channelName, userName, workspaceId },
+          { headers: { Authorization: localStorage.getItem("Authorization") } }
+        );
+
+        setChannelName("");
       } catch (error) {
-        console.error("Failed to create channel", error);
+        console.dir(error);
+        toast.error(error.response?.data, { position: "bottom-center" });
       }
     }
   };
@@ -37,6 +48,15 @@ function CreateChannelModal() {
   return (
     <div>
       <button onClick={() => setModalIsOpen(true)}>Create Channel</button>
+      <div>
+        <ul
+          onClick={() => {
+            handleChannelChat();
+          }}
+        >
+          {channelName}
+        </ul>
+      </div>
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <h2>Create Channel</h2>
         <input value={channelName} onChange={handleChannelNameChange} placeholder="Enter channel name" />
