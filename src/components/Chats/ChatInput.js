@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { socket } from "../Socket/socket";
+import toast from "react-toastify";
 
 const ChatInput = () => {
   const [messages, setMessages] = useState([]);
   const [name, setName] = useState("");
 
   useEffect(() => {
+    const nickName = localStorage.getItem("nickName");
+    // console.log(nickName);
     setName("");
-    socket.emit("newUser", "nickName", "testWS", "testCN");
+    socket.emit("newUser", nickName, "testWS", "testCN");
 
     socket.on("update", data => {
       setMessages(prevMessages => [
