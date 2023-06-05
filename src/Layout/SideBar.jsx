@@ -1,39 +1,23 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { sidebarItems } from "../Data/SidebarData";
 import AddIcon from "@material-ui/icons/Add";
 import ChannelForm from "../components/Channels/ChannelForm";
-import WorkspaceComponent from "../components/Workspace.js/WorkSpace";
+import WorkSpace from "../components/Workspace.js/WorkSpace";
 
 function Sidebar() {
   const [workspaceName, setWorkspaceName] = useState("");
-  // workspaceName state
-
-  // const history = useHistory();
-
-  // const goToChannel = id => {
-  //   if (id) {
-  //     console.log(id);
-  //     history.push(`/room/${id}`);
-  //   }
-  // };
-
-  // const addChannel = () => {
-  //   const promptName = prompt("Enter channel name");
-  //   if (promptName) {
-  //     db.collection("rooms").add({
-  //       name: promptName,
-  //     });
-  //   }
-  // };
 
   return (
     <Container>
       <WorkspaceContainer>
-        <WorkspaceComponent workspaceName={workspaceName} setWorkspaceName={setWorkspaceName} />
-        <Name>{setWorkspaceName}</Name>
+
+        <WorkSpace workspaceName={workspaceName} setWorkspaceName={setWorkspaceName} />
+        <WorkSpaceList>
+          <Name>{workspaceName}</Name>
+        </WorkSpaceList>
+
         <NewMessage>
           <AddCircleOutlineIcon />
         </NewMessage>
@@ -119,15 +103,17 @@ const NewChannelContainer = styled.div`
   padding-right: 12px;
 `;
 
-const ChannelsList = styled.div``;
 
-const Channel = styled.div`
-  height: 28px;
-  display: flex;
-  align-items: center;
-  padding-left: 19px;
-  cursor: pointer;
-  :hover {
-    background: #350d36;
-  }
-`;
+const WorkSpaceList = styled.div``;
+
+
+// const Channel = styled.div`
+//   height: 28px;
+//   display: flex;
+//   align-items: center;
+//   padding-left: 19px;
+//   cursor: pointer;
+//   :hover {
+//     background: #350d36;
+//   }
+// `;

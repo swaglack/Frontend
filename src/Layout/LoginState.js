@@ -1,59 +1,64 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import Cookies from "js-cookie";
+import axios from "axios";
 import styled from "styled-components";
 
 function LoginState() {
-  const navigate = useNavigate();
-  const [renderTrigger, setRenderTrigger] = useState(false);
-  const [nickName, setNickName] = useState(
-    JSON.parse(localStorage.getItem("nickName"))
-  );
-  const [isSignIn, setIsSignIn] = useState(
-    JSON.parse(localStorage.getItem("isSignIn"))
-  );
+  const [nickName, setNickName] = useState("");
+  const [isSignIn, setIsSignIn] = useState(false);
 
-  //로그아웃핸들러
   const signOutHandler = () => {
-    localStorage.clear();
-    alert("로그아웃");
-    navigate("/");
+    Cookies.remove("userName"); //??
+    sessionStorage.clear();
+    alert("로그아웃 했습니다.");
     setNickName("");
     setIsSignIn(false);
   };
 
   useEffect(() => {
-    const isSignedIn = localStorage.getItem("isSignIn");
-    if (isSignedIn) {
-      setIsSignIn(isSignedIn);
-    }
-  }, [navigate]);
+    const fetchNickname = async () => {
+      const token = Cookies.get("userName");
+      if (token) {
+        try {
+          const response = await axios.get(
+            "https://api.swaglack.site/api/userName/nickname",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const { nickName } = response.data;
+          setNickName(nickName);
+          setIsSignIn(true);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
 
-  //로그인 후
+    fetchNickname();
+  }, []);
+
   const onSignIn = (
-    <LogonBar>
-      <div></div>
-      <div />
-      <img
-        style={{ transform: "scale(0.4)", height: "90px" }}
-        src={"https://i.imgur.com/6VBx3io.png"}
-      />
-      <div>{nickName}</div>
-      <div>
-        <button onClick={signOutHandler}>로그아웃</button>
-      </div>
-    </LogonBar>
+    <>
+      <img src={"https://i.imgur.com/6VBx3io.png"} />
+      <div>{nickName}</div> <button onClick={signOutHandler}>로그아웃</button>
+    </>
   );
-  //로그인 전
   const offSignIn = (
-    <LogonBar>
+    <offSignInBox>
       <Link to={"/Signup"}>
         <button>회원가입</button>
       </Link>
       <Link to={"/Login"}>
         <button>로그인</button>
       </Link>
-    </LogonBar>
+    </offSignInBox>
   );
+
   return <div>{isSignIn ? onSignIn : offSignIn}</div>;
 }
 
@@ -64,6 +69,11 @@ const LogonBar = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 500px;
-  gap: 10px;
+`;
+
+const offSignInBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;

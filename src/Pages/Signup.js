@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { AuthApi } from "../shared/api";
 import axios from "axios";
 
+// // 닉네임 정규식
+// const nicknameRegex = /^[A-Za-z0-9]{3,}$/;
+
 // 비밀번호 정규식
 const passwordRegex = /^.{4,}$/;
 
@@ -76,6 +79,11 @@ function Signup() {
       ...prevUserName,
       err: !verifiedUsername,
     }));
+
+    // setNickName((prevNickName) => ({
+    //   ...prevNickName,
+    //   err: !verifiedNickname,
+    // }));
 
     setUserPwd((prevUserPwd) => ({
       ...prevUserPwd,
@@ -183,7 +191,7 @@ export default Signup;
 const SignupBox = styled.div`
   height: 680px;
   border: 1px solid none;
-  margin: auto;
+  margin-top: auto;
   display: flex;
   justify-content: center;
   align-items: center;
