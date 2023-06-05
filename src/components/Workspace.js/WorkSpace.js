@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import styled from "styled-components";
 
 const WorkspaceComponent = () => {
   const [workspaceName, setWorkspaceName] = useState("");
@@ -24,7 +25,6 @@ const WorkspaceComponent = () => {
         "https://api.swaglack.site/api/workspace",
         {
           workspaceName,
-          workspaceMaster: userName,
         },
         {
           headers: {
@@ -34,8 +34,10 @@ const WorkspaceComponent = () => {
         }
       )
       .then(function (response) {
+        console.log(response);
         setModalValue(response.data);
         setIsSubmitting(false);
+        setModalIsOpen(false); // 모달창 닫기 추가
       })
       .catch(function (error) {
         setIsSubmitting(false);
@@ -59,19 +61,54 @@ const WorkspaceComponent = () => {
     <div>
       <button onClick={openModal}> {workspaceName || "Open Workspace"}</button>
 
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <h2>Modal</h2>
+      <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
+        <Header>Modal</Header>
         <form onSubmit={handleSubmit}>
           <input type="text" value={workspaceName} onChange={handleWorkspaceChange} placeholder="Enter workspace" />
-          <button type="submit" disabled={isSubmitting}>
+          <SubmitButton type="submit" disabled={isSubmitting}>
             Add Workspace
-          </button>
+          </SubmitButton>
         </form>
         <p>{modalValue}</p>
-        <button onClick={closeModal}>Close</button>
-      </Modal>
+        <CloseButton onClick={closeModal}>Close</CloseButton>
+      </StyledModal>
     </div>
   );
 };
-
 export default WorkspaceComponent;
+
+const StyledModal = styled(Modal)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #fff;
+  outline: none;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.1);
+`;
+
+const Header = styled.h2`
+  color: #4a154b;
+`;
+
+const SubmitButton = styled.button`
+  background: #4a154b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const CloseButton = styled.button`
+  background: #fff;
+  color: #4a154b;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+`;
