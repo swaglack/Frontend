@@ -11,7 +11,7 @@ const ChatInput = () => {
     const nickName = localStorage.getItem("nickName");
     // console.log(nickName);
     setName("");
-    socket.emit("newUser", nickName, "testWS", "testCN");
+    socket.emit("newUser", nickName, "", "");
 
     socket.on("update", data => {
       setMessages(prevMessages => [
@@ -19,6 +19,7 @@ const ChatInput = () => {
         {
           type: data.type,
           sender: data.name,
+          receiver: data.name,
           text: data.message,
         },
       ]);
@@ -34,6 +35,7 @@ const ChatInput = () => {
       {
         type: "message",
         sender: name,
+        receiver: name,
         text: message,
       },
     ]);
