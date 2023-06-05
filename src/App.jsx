@@ -8,6 +8,8 @@ import Header from "./Layout/Header";
 import Sidebar from "./Layout/SideBar";
 import ChatInput from "./components/Chats/ChatInput";
 import MainPage from "./Pages/MainPage";
+import ChannelForm from "./components/Channels/ChannelForm";
+import WorkspaceComponent from "./components/Workspace.js/WorkSpace";
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false); // Track the user's login status
@@ -30,11 +32,11 @@ function App() {
     <Router>
       <Container>
         <Header />
+
         {/* isLoggedIn={isLoggedIn} onLogout={handleLogout} /> */}
 
         <Main>
           <Sidebar />
-          {/* Render the ChatInput component only when the user is logged in */}
 
           <Routes>
             <Route path="/" element={<MainPage />} />

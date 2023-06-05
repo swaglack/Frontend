@@ -7,6 +7,6 @@ export const instance = axios.create({
 export const PostApi = {
   getGaese: () => instance.get("/post/list"),
   getDetailGaese: postId => instance.get(`/post/${postId}`),
-  postSlack: payload => instance.post("members/signupAuth", payload),
+  postchannel: payload => instance.post("members/signupAuth", payload),
   postConfirmSlack: payload => instance.post("members/signup", payload),
 };

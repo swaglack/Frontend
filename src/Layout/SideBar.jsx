@@ -1,11 +1,16 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { sidebarItems } from "../Data/SidebarData";
 import AddIcon from "@material-ui/icons/Add";
 import ChannelForm from "../components/Channels/ChannelForm";
+import WorkspaceComponent from "../components/Workspace.js/WorkSpace";
 
 function Sidebar() {
+  const [workspaceName, setWorkspaceName] = useState("");
+  // workspaceName state
+
   // const history = useHistory();
 
   // const goToChannel = id => {
@@ -27,7 +32,8 @@ function Sidebar() {
   return (
     <Container>
       <WorkspaceContainer>
-        <Name>Swaglack</Name>
+        <WorkspaceComponent workspaceName={workspaceName} setWorkspaceName={setWorkspaceName} />
+        <Name>{setWorkspaceName}</Name>
         <NewMessage>
           <AddCircleOutlineIcon />
         </NewMessage>
