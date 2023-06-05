@@ -21,24 +21,12 @@ function LoginState() {
     setIsSignIn(false);
   };
 
-  //강제리렌더링해서 로그인하자마자 로그인상태변경해야함..
-  // useEffect(() => {
-  //   localStorage.getItem("nickName"); //실행하고싶은 함수
-  // }, []);
-
-  // useEffect(() => {
-  //   isSignIn; //실행하고싶은 함수
-  // }, [renderTrigger]);
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("isSignIn")) {
-  //     // navigate("/");
-  //   }
-  // }, [renderTrigger]);
-
-  // useEffect(() => {
-  //   실행하고싶은함수
-  // }, [의존성배열]);;
+  useEffect(() => {
+    const isSignedIn = localStorage.getItem("isSignIn");
+    if (isSignedIn) {
+      setIsSignIn(isSignedIn);
+    }
+  }, [navigate]);
 
   //로그인 후
   const onSignIn = (

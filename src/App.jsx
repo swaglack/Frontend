@@ -1,6 +1,11 @@
 import "./App.css";
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import styled from "styled-components";

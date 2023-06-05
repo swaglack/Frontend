@@ -120,11 +120,13 @@ export default Login;
 const SigninBox = styled.div`
   height: 680px;
   border: 1px solid none;
-  margin-top: auto;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-weight: 600;
+  font-size: 25px;
 `;
 
 const InputBox = styled.input`
