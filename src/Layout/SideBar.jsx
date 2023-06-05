@@ -4,7 +4,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { sidebarItems } from "../Data/SidebarData";
 import AddIcon from "@material-ui/icons/Add";
 import ChannelForm from "../components/Channels/ChannelForm";
-import WorkspaceComponent from "../components/Workspace.js/WorkSpace";
+import WorkSpace from "../components/Workspace.js/WorkSpace";
 
 function Sidebar() {
   const [workspaceName, setWorkspaceName] = useState("");
@@ -12,8 +12,10 @@ function Sidebar() {
   return (
     <Container>
       <WorkspaceContainer>
-        <WorkspaceComponent workspaceName={workspaceName} setWorkspaceName={setWorkspaceName} />
-        <Name>{workspaceName}</Name>
+        <WorkSpace workspaceName={workspaceName} setWorkspaceName={setWorkspaceName} />
+        <WorkSpaceList>
+          <Name>{workspaceName}</Name>
+        </WorkSpaceList>
         <NewMessage>
           <AddCircleOutlineIcon />
         </NewMessage>
@@ -99,7 +101,7 @@ const NewChannelContainer = styled.div`
   padding-right: 12px;
 `;
 
-// const ChannelsList = styled.div``;
+const WorkSpaceList = styled.div``;
 
 // const Channel = styled.div`
 //   height: 28px;

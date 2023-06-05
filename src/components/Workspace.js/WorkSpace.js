@@ -3,8 +3,9 @@ import axios from "axios";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-const WorkspaceComponent = () => {
+const workSpace = () => {
   const [workspaceName, setWorkspaceName] = useState("");
+  const [workspace, setWorkspace] = useState([]); // New state for workspace list
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalValue, setModalValue] = useState("");
@@ -14,7 +15,37 @@ const WorkspaceComponent = () => {
     if (token) {
       console.log("User is logged in");
     }
+    fetchWorkspace();
   }, []);
+
+  const fetchWorkspace = async () => {
+    try {
+      const response = await axios.get("https://api.swaglack.site/api/workspace", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("Authorization"),
+        },
+      });
+      console.log(response.data);
+      setWorkspace(response.data); // Save the fetched workspaces to state
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteWorkspace = async Id => {
+    try {
+      await axios.delete(`https://api.swaglack.site/api/workspace/${Id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("Authorization"),
+        },
+      });
+      fetchWorkspace(); //삭제된 후에 남은 workspace 화면에 표시
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -37,7 +68,7 @@ const WorkspaceComponent = () => {
         console.log(response);
         setModalValue(response.data);
         setIsSubmitting(false);
-        setModalIsOpen(false); // 모달창 닫기 추가
+        setModalIsOpen(false); // Close modal
       })
       .catch(function (error) {
         setIsSubmitting(false);
@@ -48,6 +79,8 @@ const WorkspaceComponent = () => {
   const handleWorkspaceChange = event => {
     setWorkspaceName(event.target.value);
   };
+
+  const deleteWorkspaceHandle = event => {};
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -60,7 +93,12 @@ const WorkspaceComponent = () => {
   return (
     <div>
       <button onClick={openModal}> {workspaceName || "Open Workspace"}</button>
-
+      {workspace.map(workspace => (
+        <div key={workspace.workspaceId}>
+          <span>{workspace.workspaceName}</span>
+          <button onClick={() => deleteWorkspace(workspace.workspaceId)}>Delete</button>{" "}
+        </div>
+      ))}
       <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
         <Header>Modal</Header>
         <form onSubmit={handleSubmit}>
@@ -75,7 +113,7 @@ const WorkspaceComponent = () => {
     </div>
   );
 };
-export default WorkspaceComponent;
+export default workSpace;
 
 const StyledModal = styled(Modal)`
   position: absolute;

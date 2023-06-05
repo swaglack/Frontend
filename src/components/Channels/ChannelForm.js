@@ -16,70 +16,52 @@ const ChannelList = styled.ul`
   /* Styles for channel list */
 `;
 
-const ErrorMessage = styled.p`
-  color: red;
-  /* Styles for error message */
-`;
-
 const CreateChannelModalWrapper = styled.div`
   /* Styles for modal container */
 `;
 
 const CreateChannelModal = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [channelName, setChannelName] = useState("");
-  const [isInvalid, setIsInvalid] = useState(false);
   const [viewChat, setViewChat] = useState(false);
+  const [channelName, setChannelName] = useState("");
 
-  const validateChannelName = name => {
-    const regex = /^[a-z0-9\_\-]+$/i;
-    return regex.test(name);
-  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // User is already logged in, perform necessary actions
       console.log("User is logged in");
     }
   }, []);
+
   const handleChannelNameClick = () => {
     setViewChat(true);
   };
 
   if (viewChat) {
-    return;
-    <ChatInput />;
+    return <ChatInput />;
   }
 
   const handleChannelNameChange = event => {
     const value = event.target.value;
     setChannelName(value);
-    setIsInvalid(!validateChannelName(value));
-  };
-
-  const channelData = {
-    name: channelName,
   };
 
   const handleCreateChannel = async () => {
-    if (channelName && !isInvalid) {
-      try {
-        await axios
-          .post("https://api.swaglack.site/channel ", channelData, {
-            headers: {
-              "Content-Type": `application/json`,
-              Authorization: localStorage.getItem("Authorization"),
-            },
-          })
-          .then(res => {
-            console.log(res);
-          });
+    try {
+      await axios
+        .post("https://api.swaglack.site/api/workspace/:workspaceid/channel ", channelName, {
+          headers: {
+            "Content-Type": `application/json`,
+            Authorization: localStorage.getItem("Authorization"),
+          },
+        })
+        .then(res => {
+          console.log(res);
+        });
 
-        setChannelName("");
-      } catch (error) {
-        console.dir(error);
-        toast.error(error.response?.data, { position: "bottom-center" });
-      }
+      setChannelName("");
+    } catch (error) {
+      console.dir(error);
+      toast.error(error.response?.data, { position: "bottom-center" });
     }
   };
 
@@ -92,10 +74,7 @@ const CreateChannelModal = () => {
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <h2>Create Channel</h2>
         <input value={channelName} onChange={handleChannelNameChange} placeholder="Enter channel name" />
-        {isInvalid && <ErrorMessage>Channel name is invalid</ErrorMessage>}
-        <Button disabled={isInvalid} onClick={handleCreateChannel}>
-          Create
-        </Button>
+        <Button onClick={handleCreateChannel}>Create</Button>
         <Button onClick={() => setModalIsOpen(false)}>Cancel</Button>
       </Modal>
     </CreateChannelModalWrapper>
