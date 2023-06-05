@@ -18,9 +18,7 @@ function Header() {
       </Main>
       <UserContainer>
         <Name></Name>
-        <UserImage>
-          <LoginState />
-        </UserImage>
+        <LoginState />
       </UserContainer>
     </Container>
   );
