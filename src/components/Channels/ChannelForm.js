@@ -47,7 +47,8 @@ const CreateChannelModal = () => {
   };
 
   if (viewChat) {
-    return <ChatInput />;
+    return;
+    <ChatInput />;
   }
 
   const handleChannelNameChange = event => {
@@ -64,7 +65,7 @@ const CreateChannelModal = () => {
     if (channelName && !isInvalid) {
       try {
         await axios
-          .post("https://api.swaglack.site/workspace/:workspaceId/channel ", channelData, {
+          .post("https://api.swaglack.site/channel ", channelData, {
             headers: {
               "Content-Type": `application/json`,
               Authorization: localStorage.getItem("Authorization"),
