@@ -68,8 +68,9 @@ const workSpace = () => {
         console.log(response);
         setModalValue(response.data);
         setIsSubmitting(false);
+
         setModalIsOpen(false); // Close modal
-      })
+
       .catch(function (error) {
         setIsSubmitting(false);
         console.log(error);
@@ -93,12 +94,14 @@ const workSpace = () => {
   return (
     <div>
       <button onClick={openModal}> {workspaceName || "Open Workspace"}</button>
+
       {workspace.map(workspace => (
         <div key={workspace.workspaceId}>
           <span>{workspace.workspaceName}</span>
           <button onClick={() => deleteWorkspace(workspace.workspaceId)}>Delete</button>{" "}
         </div>
       ))}
+
       <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
         <Header>Modal</Header>
         <form onSubmit={handleSubmit}>
@@ -113,7 +116,10 @@ const workSpace = () => {
     </div>
   );
 };
+
 export default workSpace;
+
+
 
 const StyledModal = styled(Modal)`
   position: absolute;

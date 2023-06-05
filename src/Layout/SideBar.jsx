@@ -12,10 +12,12 @@ function Sidebar() {
   return (
     <Container>
       <WorkspaceContainer>
+
         <WorkSpace workspaceName={workspaceName} setWorkspaceName={setWorkspaceName} />
         <WorkSpaceList>
           <Name>{workspaceName}</Name>
         </WorkSpaceList>
+
         <NewMessage>
           <AddCircleOutlineIcon />
         </NewMessage>
@@ -101,7 +103,9 @@ const NewChannelContainer = styled.div`
   padding-right: 12px;
 `;
 
+
 const WorkSpaceList = styled.div``;
+
 
 // const Channel = styled.div`
 //   height: 28px;
