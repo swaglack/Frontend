@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import UserDetail from "./UserDetail";
 
 function LoginState() {
   const navigate = useNavigate();
   const [renderTrigger, setRenderTrigger] = useState(false);
-  const [nickName, setNickName] = useState(JSON.parse(localStorage.getItem("nickName")));
-  const [isSignIn, setIsSignIn] = useState(JSON.parse(localStorage.getItem("isSignIn")));
+  const [nickName, setNickName] = useState(
+    JSON.parse(localStorage.getItem("nickName"))
+  );
+  const [isSignIn, setIsSignIn] = useState(
+    JSON.parse(localStorage.getItem("isSignIn"))
+  );
 
   //로그아웃핸들러
   const signOutHandler = () => {
@@ -29,22 +34,19 @@ function LoginState() {
     <LogonBar>
       <div></div>
       <div />
-      <img style={{ transform: "scale(0.4)", height: "90px" }} src={"https://i.imgur.com/6VBx3io.png"} />
-      <div>{nickName}</div>
-      <div>
-        <button onClick={signOutHandler}>로그아웃</button>
-      </div>
+      <UserDetail />
+      <div>{/* <button onClick={signOutHandler}>로그아웃</button> */}</div>
     </LogonBar>
   );
   //로그인 전
   const offSignIn = (
     <LogonBar>
-      <Link to={"/Signup"}>
-        <button>회원가입</button>
+      {/* <Link to={"/Signup"}>
+        <SignupButton>회원가입</SignupButton>
       </Link>
       <Link to={"/Login"}>
-        <button>로그인</button>
-      </Link>
+        <SignupButton>로그인</SignupButton>
+      </Link> */}
     </LogonBar>
   );
   return <div>{isSignIn ? onSignIn : offSignIn}</div>;
@@ -60,3 +62,20 @@ const LogonBar = styled.div`
   width: 500px;
   gap: 10px;
 `;
+
+// const SignupButton = styled.button`
+//   width: 100px;
+//   height: 30px;
+//   border-radius: 5px;
+//   border: none;
+//   outline: none;
+//   color: white;
+//   font-size: 15px;
+//   font-weight: 700;
+//   cursor: pointer;
+//   background-color: #007a5a;
+//   transition: all 0.1s;
+//   :hover {
+//     background-color: #148567;
+//   }
+// `;

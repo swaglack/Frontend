@@ -188,6 +188,7 @@ const SignupBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-weight: 600;
 `;
 
 const InputBox = styled.input`
@@ -209,7 +210,7 @@ const ButtonBox = styled.div`
   padding: 10px;
   color: white;
   background-color: purple;
-  font-weight: 500;
+  font-weight: 700;
   width: 427px;
   height: 30px;
   border-radius: 5px;
