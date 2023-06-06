@@ -9,7 +9,7 @@ const Main = () => {
     navigate("/signup");
   };
 
-  const onClickLonginHandler = () => {
+  const onClickLoginHandler = () => {
     navigate("/login");
   };
   return (
@@ -52,7 +52,7 @@ const Main = () => {
             <ButtonBox onClick={() => onClickSingupHandler()}>
               회원가입
             </ButtonBox>
-            <ButtonBox onClick={() => onClickSingupHandler()}>로그인</ButtonBox>
+            <ButtonBox onClick={() => onClickLoginHandler()}>로그인</ButtonBox>
           </ButtonDiv>
           <TextDiv>
             <span
