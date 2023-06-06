@@ -1,11 +1,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  NavLink,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import styled from "styled-components";
@@ -13,11 +8,9 @@ import Header from "./Layout/Header";
 import Sidebar from "./Layout/SideBar";
 import ChatInput from "./components/Chats/ChatInput";
 import MainPage from "./Pages/MainPage";
-import ChannelForm from "./components/Channels/ChannelForm";
-import WorkspaceComponent from "./components/Workspace.js/WorkSpace";
 
 function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Track the user's login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track the user's login status
 
   // const handleLogin = () => {
   //   useEffect(() => {
@@ -37,8 +30,6 @@ function App() {
     <Router>
       <Container>
         <Header />
-
-        {/* isLoggedIn={isLoggedIn} onLogout={handleLogout} /> */}
 
         <Main>
           <Sidebar />
