@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { setWorkspaceId } from "../../redux/slackSlice";
 
 const workSpace = () => {
   const [workspaceName, setWorkspaceName] = useState("");
@@ -9,13 +11,15 @@ const workSpace = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalValue, setModalValue] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    fetchWorkspace();
+
     const token = localStorage.getItem("token");
     if (token) {
       console.log("User is logged in");
     }
-    fetchWorkspace();
   }, []);
 
   const fetchWorkspace = async () => {
@@ -68,9 +72,9 @@ const workSpace = () => {
         console.log(response);
         setModalValue(response.data);
         setIsSubmitting(false);
-
-        setModalIsOpen(false); // Close modal
-			})
+        setModalIsOpen(false);
+        fetchWorkspace();
+      })
       .catch(function (error) {
         setIsSubmitting(false);
         console.log(error);
@@ -80,8 +84,6 @@ const workSpace = () => {
   const handleWorkspaceChange = event => {
     setWorkspaceName(event.target.value);
   };
-
-  const deleteWorkspaceHandle = event => {};
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -93,12 +95,19 @@ const workSpace = () => {
 
   return (
     <div>
-      <button onClick={openModal}> {workspaceName || "Open Workspace"}</button>
+      <WorkspaceButton onClick={openModal}> {"Create Workspace"}</WorkspaceButton>
 
       {workspace.map(workspace => (
-        <div key={workspace.workspaceId}>
-          <span>{workspace.workspaceName}</span>
-          <button onClick={() => deleteWorkspace(workspace.workspaceId)}>Delete</button>{" "}
+        <div key={workspace.workspaceId} onClick={() => dispatch(setWorkspaceId(workspace.workspaceId))}>
+          <span>{workspaceName}</span>
+          <DeleteButton
+            onClick={e => {
+              e.stopPropagation();
+              deleteWorkspace(workspace.workspaceId); // Pass workspace.workspaceId instead of item.workspaceId
+            }}
+          >
+            Delete
+          </DeleteButton>
         </div>
       ))}
 
@@ -119,8 +128,6 @@ const workSpace = () => {
 
 export default workSpace;
 
-
-
 const StyledModal = styled(Modal)`
   position: absolute;
   top: 50%;
@@ -132,6 +139,28 @@ const StyledModal = styled(Modal)`
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.1);
+`;
+
+const DeleteButton = styled.button`
+  background-color: #f44336;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  border-color: white;
+`;
+
+const WorkspaceButton = styled.button`
+  background-color: #4a154b;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-color: white;
 `;
 
 const Header = styled.h2`

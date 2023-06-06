@@ -44,7 +44,7 @@ const ChatInput = () => {
       <ChatArea id="chat">
         {messages.map((message, index) => (
           <Message key={index} isCurrentUser={message.sender === name}>
-            <Sender>{message.sender}:</Sender>
+            <Sender>{message.sender}</Sender>
             {message.text}
           </Message>
         ))}

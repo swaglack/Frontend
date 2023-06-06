@@ -5,12 +5,8 @@ import styled from "styled-components";
 function LoginState() {
   const navigate = useNavigate();
   const [renderTrigger, setRenderTrigger] = useState(false);
-  const [nickName, setNickName] = useState(
-    JSON.parse(localStorage.getItem("nickName"))
-  );
-  const [isSignIn, setIsSignIn] = useState(
-    JSON.parse(localStorage.getItem("isSignIn"))
-  );
+  const [nickName, setNickName] = useState(JSON.parse(localStorage.getItem("nickName")));
+  const [isSignIn, setIsSignIn] = useState(JSON.parse(localStorage.getItem("isSignIn")));
 
   //로그아웃핸들러
   const signOutHandler = () => {
@@ -33,10 +29,7 @@ function LoginState() {
     <LogonBar>
       <div></div>
       <div />
-      <img
-        style={{ transform: "scale(0.4)", height: "90px" }}
-        src={"https://i.imgur.com/6VBx3io.png"}
-      />
+      <img style={{ transform: "scale(0.4)", height: "90px" }} src={"https://i.imgur.com/6VBx3io.png"} />
       <div>{nickName}</div>
       <div>
         <button onClick={signOutHandler}>로그아웃</button>
