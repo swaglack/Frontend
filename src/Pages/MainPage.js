@@ -2,14 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const MainPage = () => {
+const Main = () => {
   const navigate = useNavigate();
 
   const onClickSingupHandler = () => {
     navigate("/signup");
   };
 
-  const onClickLonginHandler = () => {
+  const onClickLoginHandler = () => {
     navigate("/login");
   };
   return (
@@ -52,7 +52,7 @@ const MainPage = () => {
             <ButtonBox onClick={() => onClickSingupHandler()}>
               회원가입
             </ButtonBox>
-            <ButtonBox onClick={() => onClickSingupHandler()}>로그인</ButtonBox>
+            <ButtonBox onClick={() => onClickLoginHandler()}>로그인</ButtonBox>
           </ButtonDiv>
           <TextDiv>
             <span
@@ -70,7 +70,7 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Main;
 
 const MainBackground = styled.div`
   background-color: #4a154b;
