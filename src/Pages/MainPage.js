@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const MainPage = () => {
+const Main = () => {
   const navigate = useNavigate();
 
   const onClickSingupHandler = () => {
@@ -70,7 +70,7 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Main;
 
 const MainBackground = styled.div`
   background-color: #4a154b;
