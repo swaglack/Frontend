@@ -32,7 +32,7 @@ const CreateChannel = () => {
 
   const fetchChannels = async token => {
     try {
-      const response = await axios.get(`https://api.swaglack.site/api/workspace/:${workspaceId}/channels`, {
+      const response = await axios.get(`url/api/workspace/:${workspaceId}/channels`, {
         headers: {
           "Content-Type": "application/json; charset=utf-8'",
           Authorization: localStorage.getItem("Authorization"),
@@ -61,7 +61,7 @@ const CreateChannel = () => {
           workspaceId: workspaceId,
         };
 
-        await axios.post(`https://api.swaglack.site/api/workspace/:${workspaceId}/channel`, channelData, {
+        await axios.post(`url/api/workspace/:${workspaceId}/channel`, channelData, {
           headers: {
             "Content-Type": "application/json; charset=utf-8'",
             Authorization: localStorage.getItem("Authorization"),
