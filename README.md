@@ -71,9 +71,9 @@ git clone https://github.com/swaglack/frontend.git
 ```
 2. install yarn
 ```
-*npm install -g yarn*
+npm install -g yarn
 ```
 3. 클라이언트 실행
 ```
-*yarn start*
+yarn start
 ```
