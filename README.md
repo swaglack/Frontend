@@ -20,7 +20,7 @@ workspace 생성/삭제
 
 사용한 library
 -----------------------------
-socket.io - 채팅을 연결하고 화면에 꾸미기
+socket.io 
 
 SPA설계 : react
 
