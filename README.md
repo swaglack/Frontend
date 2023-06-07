@@ -1,6 +1,6 @@
 프로젝트 소개
 -----------------------
-슬랙클론
+슬랙클론(SWAGLACK)
 
 개발기간
 ---------------------
@@ -16,7 +16,14 @@ workspace 생성/삭제
 -----------------------------
 
 사용한 library
+-----------------------------
 socket.io - 채팅을 연결하고 화면에 꾸미기
+SPA설계 : react
+비동기 데이터 통신 : react-query, axios
+Design : styled-components
+페이지 분할 : react-router-dom
+
+___________________________________________
 
 메인화면
 ![image](https://github.com/swaglack/frontend/assets/115998794/296c8192-e805-4492-96c4-053a8a9346be)
