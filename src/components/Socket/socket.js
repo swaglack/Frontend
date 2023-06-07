@@ -4,4 +4,4 @@ import io from "socket.io-client";
 
 export const SocketContext = React.createContext();
 
-export const socket = io.connect("https://api.swaglack.site", { transports: ["websocket"] });
+export const socket = io.connect("url, { transports: ["websocket"] });
