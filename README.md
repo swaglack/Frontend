@@ -1,4 +1,5 @@
-
+사용한 library
+socket.io - 채팅을 연결하고 화면에 꾸미기
 
 메인화면
 ![image](https://github.com/swaglack/frontend/assets/115998794/296c8192-e805-4492-96c4-053a8a9346be)
