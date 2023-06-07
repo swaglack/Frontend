@@ -65,15 +65,15 @@ https://frontend-swaglack.vercel.app/
 설치 
 -------------------------------
 
-1. WHEN YOU CLONE THE REPO.
-------------------------------------
-*https://github.com/swaglack/frontend.git*
-
-2. INSTALL YARN
--------------------------------------
+1. 레포 클론
+```
+git clone https://github.com/swaglack/frontend.git
+```
+2. install yarn
+```
 *npm install -g yarn*
-
+```
 3. 클라이언트 실행
------------------------------------
+```
 *yarn start*
-
+```
