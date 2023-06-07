@@ -1,3 +1,19 @@
+프로젝트 소개
+-----------------------
+슬랙클론
+
+개발기간
+---------------------
+May 26th, 2023 - June 7th, 2023
+
+주요기능
+-------------------------
+로그인 
+로그아웃
+소캣을 이용한 채팅
+workspace 생성/삭제 
+
+
 사용한 library
 socket.io - 채팅을 연결하고 화면에 꾸미기
 
@@ -19,3 +35,5 @@ socket.io - 채팅을 연결하고 화면에 꾸미기
 https://www.youtube.com/watch?v=qzcAIX0CSAE
 배포사이트
 https://frontend-swaglack.vercel.app/
+
+
